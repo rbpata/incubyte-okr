@@ -1,5 +1,6 @@
 export default function App() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log('Objective is: ' + data.get('objective'));
     console.log('Key Result is: ' + data.get('keyResult'));
@@ -21,7 +22,7 @@ export default function App() {
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col item-center justify-center  gap-2">
-            <label htmlFor="objective">Add an Objective</label>
+            <label id="objective-label">Add an Objective</label>
             <input
               type="text"
               className={' rounded-md  border'}
@@ -31,7 +32,7 @@ export default function App() {
             />
           </div>
           <div className="flex flex-col item-center gap-2">
-            <label htmlFor="keyResult">Add a Key Result</label>
+            <label id="keyResult-label">Add a Key Result</label>
             <input
               type="text"
               className={' rounded-md  border'}
