@@ -1,10 +1,9 @@
 import React from 'react';
 import KeyResultList from './components/KeyResultList.tsx';
-import type { KeyResult } from './Types/okr_types.ts';
 import KeyResultListForm from './components/KeyResultListForm.tsx';
-export default function OkrForm() {
-   const [keyResults, setKeyResults] = React.useState<KeyResult[]>([]);
+import KeyResultProvider from './Provider/KeyResultProvider.tsx';
 
+export default function OkrForm() {
    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = new FormData(e.currentTarget);
@@ -13,7 +12,7 @@ export default function OkrForm() {
    };
 
    return (
-      <>
+      <KeyResultProvider>
          <div
             className={
                'flex w-full min-h-screen justify-center items-center border  font-mono bg-gray-300 '
@@ -36,8 +35,8 @@ export default function OkrForm() {
                      required={true}
                   />
                </div>
-               <KeyResultListForm setKeyResults={setKeyResults} />
-               <KeyResultList keyResults={keyResults} />
+               <KeyResultListForm />
+               <KeyResultList />
 
                <div className={'flex gap-4 justify-center'}>
                   <button
@@ -56,6 +55,6 @@ export default function OkrForm() {
                </div>
             </form>
          </div>
-      </>
+      </KeyResultProvider>
    );
 }
