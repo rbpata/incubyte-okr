@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import type { KeyResult } from '../Types/okr_types.ts';
-import { KeyResultContext } from '../Provider/KeyResultProvider.tsx';
+import { KeyResultContext } from '../Contexts/KeyResultContext';
 
 const KeyResultListForm = () => {
    const [keyResult, setKeyResult] = React.useState<KeyResult>({
       description: '',
       progress: '',
    });
-   const { setKeyResultList } = useContext(KeyResultContext);
+   const { addKeyResult } = useContext(KeyResultContext);
    const isDisabled = !(
       keyResult.description != '' && keyResult.progress != ''
    );
@@ -25,9 +25,9 @@ const KeyResultListForm = () => {
    }
 
    function handleAddKeyResult() {
-      setKeyResultList((prev) => {
-         return [...prev, keyResult];
-      });
+       if (addKeyResult) {
+           addKeyResult({description: keyResult.description, progress: keyResult.progress});
+       }
       resetKeyResultValues();
    }
 

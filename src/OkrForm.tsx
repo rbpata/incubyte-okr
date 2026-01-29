@@ -1,7 +1,7 @@
 import React from 'react';
 import KeyResultList from './components/KeyResultList.tsx';
 import KeyResultListForm from './components/KeyResultListForm.tsx';
-import KeyResultProvider from './Provider/KeyResultProvider.tsx';
+import KeyResultProvider from './Contexts/KeyResultProvider.tsx';
 
 export default function OkrForm() {
    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {

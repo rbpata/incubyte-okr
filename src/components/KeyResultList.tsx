@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { KeyResultContext } from '../Provider/KeyResultProvider.tsx';
+import { KeyResultContext } from '../Contexts/KeyResultContext'
 
 export default function KeyResultList() {
    const { keyResultList } = useContext(KeyResultContext);
