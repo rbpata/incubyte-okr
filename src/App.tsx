@@ -1,11 +1,11 @@
-import OkrForm from "./OkrForm.tsx";
+import OkrForm from './OkrForm.tsx';
 
 const App = () => {
-    return (
-        <>
-            <OkrForm/>
-        </>
-    )
-}
+   return (
+      <>
+         <OkrForm />
+      </>
+   );
+};
 
 export default App;

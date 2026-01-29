@@ -1,59 +1,83 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import KeyResultList from './components/KeyResultList.tsx';
 import KeyResultListForm from './components/KeyResultListForm.tsx';
 import KeyResultProvider from './Contexts/KeyResultProvider.tsx';
 
 export default function OkrForm() {
-   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = new FormData(e.currentTarget);
-      console.log('Objective is: ' + data.get('objective'));
-      console.log('Key Result is: ' + data.get('keyResult'));
+      console.log('Objective:', data.get('objective'));
    };
 
    return (
       <KeyResultProvider>
-         <div
-            className={
-               'flex w-full min-h-screen justify-center items-center border  font-mono bg-gray-300 '
-            }
-         >
-            <form
-               className={
-                  'flex flex-col w-100 h-auto gap-5 p-10 border rounded-md shadow-xl bg-gray-100'
-               }
+         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-200 via-gray-200 to-slate-300 px-4 ">
+            <motion.form
                onSubmit={handleSubmit}
+               initial={{ opacity: 0, scale: 0.95, y: 30 }}
+               animate={{ opacity: 1, scale: 1, y: 0 }}
+               transition={{ duration: 0.5, ease: 'easeOut' }}
+               className="w-full max-w-2xl rounded-2xl bg-white/70 backdrop-blur border border-gray-200 shadow-2xl p-8 space-y-6"
             >
-               <p className={'font-bold text-3xl items-center'}>OKR Form</p>
-               <div className="flex flex-col item-center justify-center  gap-2">
-                  <label id="objective-label">Add an Objective</label>
+               <motion.h1
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-3xl font-bold text-center text-gray-800"
+               >
+                  🎯 OKR Form
+               </motion.h1>
+
+               <div className="flex flex-col gap-1">
+                  <label
+                     htmlFor="objective-input"
+                     className="text-sm font-medium text-gray-600"
+                  >
+                     Objective
+                  </label>
                   <input
                      type="text"
-                     className={' rounded-md  border'}
-                     id={'objective-input'}
+                     id="objective-input"
                      name="objective"
-                     required={true}
+                     placeholder="Increase product adoption by Q4"
+                     required
+                     className="rounded-lg border border-gray-300 px-4 py-2
+                        focus:outline-none focus:ring-2 focus:ring-indigo-400
+                        focus:border-transparent transition"
                   />
                </div>
-               <KeyResultListForm />
-               <KeyResultList />
 
-               <div className={'flex gap-4 justify-center'}>
-                  <button
-                     className={
-                        'border rounded-md px-3 py-1 bg-blue-500 text-white'
-                     }
+               <div className="pt-2">
+                  <KeyResultListForm />
+                  <KeyResultList />
+               </div>
+
+               <div className="flex justify-center gap-4 pt-4">
+                  <motion.button
+                     whileHover={{ scale: 1.05 }}
+                     whileTap={{ scale: 0.95 }}
+                     type="submit"
+                     className="px-6 py-2 rounded-lg text-white font-medium
+                        bg-gradient-to-r from-blue-500 to-indigo-500
+                        hover:shadow-lg transition-all"
                   >
                      Submit
-                  </button>
-                  <button
+                  </motion.button>
+
+                  <motion.button
+                     whileHover={{ scale: 1.05 }}
+                     whileTap={{ scale: 0.95 }}
                      type="reset"
-                     className={'border rounded-md px-3 py-1 bg-gray-300'}
+                     className="px-6 py-2 rounded-lg font-medium
+                        bg-gray-200 text-gray-700
+                        hover:bg-gray-300 transition-all"
                   >
                      Clear
-                  </button>
+                  </motion.button>
                </div>
-            </form>
+            </motion.form>
          </div>
       </KeyResultProvider>
    );
