@@ -10,7 +10,7 @@ const KeyResultList = () => {
         return progress;
     };
     return (
-        <ul>
+        <ul className={'divide-y divide-gray-500'}>
             {keyResultList.map((keyResult: KeyResult, index: number) => (
                 <li key={index}>
                     <p>Key Result Description is : {keyResult.description}</p>

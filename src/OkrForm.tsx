@@ -8,6 +8,7 @@ export default function OkrForm() {
         const data = new FormData(e.currentTarget);
         console.log('Objective is: ' + data.get('objective'));
     };
+
     return (
         <div
             className={
@@ -16,7 +17,7 @@ export default function OkrForm() {
         >
             <form
                 className={
-                    'flex flex-col w-100 h-auto gap-5 p-10 border rounded-md shadow-xl bg-gray-100'
+                    'flex flex-col w-125 min-h-[85vh]  max-h-[85vh] gap-5 p-10 border rounded-md shadow-xl bg-gray-100'
                 }
                 onSubmit={handleSubmit}
             >
@@ -25,7 +26,7 @@ export default function OkrForm() {
                     <label id="objective-label">Add an Objective</label>
                     <input
                         type="text"
-                        className={' rounded-md  border'}
+                        className={'rounded-md  border px-3 py-2'}
                         id={'objective-input'}
                         name="objective"
                         placeholder={'Enter an Objective'}
@@ -48,7 +49,9 @@ export default function OkrForm() {
                         Clear
                     </button>
                 </div>
-                <KeyResultList />
+                <div className="flex-1 overflow-y-auto border rounded-md p-3 bg-white">
+                    <KeyResultList />
+                </div>
             </form>
         </div>
     );
