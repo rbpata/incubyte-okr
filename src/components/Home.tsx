@@ -1,0 +1,46 @@
+import OkrList from './OkrList.tsx';
+import Modal from './Modal.tsx';
+import KeyResultProvider from '../contexts/KeyResultProvider.tsx';
+import OkrForm from './OkrForm.tsx';
+import { useEffect, useState } from 'react';
+
+const Home = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [okrList, setOkrList] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch('http://localhost:3000/okr');
+            return await res.json();
+        };
+        fetchData().then((r) => setOkrList(r));
+    }, []);
+    return (
+        <div className={'container relative font-mono bg-white'}>
+            <div className={'flex justify-between '}>
+                <h1 className={' right-1/2 m-3 text-4xl z-20'}>Northstar</h1>
+                <button
+                    className={
+                        'mx-3 my-3 right-0 p-1 border rounded-md bg-gray-700 text-white'
+                    }
+                    onClick={() => {
+                        setIsModalOpen(true);
+                    }}
+                >
+                    Add Okr
+                </button>
+            </div>
+            <hr className="mx-3 border-gray-500" />
+
+            <Modal
+                isOpen={isModalOpen}
+                handleOnClose={() => setIsModalOpen(false)}
+            >
+                <KeyResultProvider>
+                    <OkrForm />
+                </KeyResultProvider>
+            </Modal>
+            <OkrList okrList={okrList} />
+        </div>
+    );
+};
+export default Home;

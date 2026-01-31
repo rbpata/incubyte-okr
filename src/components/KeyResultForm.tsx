@@ -51,9 +51,7 @@ const KeyResultForm = () => {
             </div>
 
             <button
-                className={
-                    'border rounded-md px-3 py-1 bg-blue-500 text-white transition hover:bg-blue-700 hover:shadow-md focus:outline-none focus:ring-2  disabled:bg-blue-300 disabled:cursor-not-allowed'
-                }
+                className={'ml-auto text-blue-500 hover:text-blue-700'}
                 type="button"
                 onClick={() => {
                     addKeyResult({

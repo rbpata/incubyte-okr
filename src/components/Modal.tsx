@@ -1,0 +1,31 @@
+import React from 'react';
+
+interface ModalProps {
+    children: React.ReactElement;
+    isOpen: boolean;
+    handleOnClose: () => void;
+}
+const Modal = ({ children, isOpen, handleOnClose }: ModalProps) => {
+    return (
+        isOpen && (
+            <div
+                className="
+                fixed inset-0 z-50
+                flex items-center justify-center
+                bg-gray-950/40
+            "
+            >
+                <button
+                    className={
+                        'absolute right-[34.5%] top-[6.5%] p-1  text-red-500 hover:text-red-600'
+                    }
+                    onClick={handleOnClose}
+                >
+                    Close
+                </button>
+                {children}
+            </div>
+        )
+    );
+};
+export default Modal;

@@ -3,3 +3,9 @@ export type KeyResult = {
     description: string;
     progress: number;
 };
+
+export type Okr = {
+    id: string;
+    objective: string;
+    keyResults: KeyResult[];
+};
