@@ -5,6 +5,7 @@ import { KeyResultContext } from '../Contexts/KeyResultContext';
 
 const KeyResultListForm = () => {
    const [keyResult, setKeyResult] = React.useState<KeyResult>({
+      id: '',
       description: '',
       progress: '',
    });
@@ -17,7 +18,7 @@ const KeyResultListForm = () => {
       if (addKeyResult) {
          addKeyResult(keyResult);
       }
-      setKeyResult({ description: '', progress: '' });
+      setKeyResult({ id: '', description: '', progress: '' });
    }
 
    return (
@@ -43,8 +44,6 @@ const KeyResultListForm = () => {
                }
                className="rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
                placeholder="Learn React Basics.."
-               minLength={5}
-               required
             />
          </div>
 
@@ -60,8 +59,6 @@ const KeyResultListForm = () => {
                }
                className="rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
                placeholder="e.g. 40%"
-               minLength={2}
-               required
             />
          </div>
 

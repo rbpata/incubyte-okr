@@ -2,6 +2,8 @@ import type { KeyResult, OkrType } from '../Types/okr_types.ts';
 
 interface OkrListProps {
    okrs: OkrType[];
+   onEdit?: (okr: OkrType) => void;
+   onDelete?: (id: string | number) => void;
 }
 
 function KeyResultItem({ kr }: { kr: KeyResult }) {
@@ -50,7 +52,7 @@ function KeyResultList({ keyResults = [] }: { keyResults: KeyResult[] }) {
    );
 }
 
-const OkrList = ({ okrs }: OkrListProps) => {
+const OkrList = ({ okrs, onEdit, onDelete }: OkrListProps) => {
    if (okrs.length === 0) {
       return (
          <div className="flex flex-col items-center justify-center py-20 text-gray-400">
@@ -85,12 +87,54 @@ const OkrList = ({ okrs }: OkrListProps) => {
                   className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-lg transition-shadow"
                >
                   <div className="flex items-start justify-between mb-4 pb-3 border-b border-gray-100">
-                     <h2 className="text-xl font-semibold text-gray-800 leading-snug">
+                     <h2 className="text-xl font-semibold text-gray-800 leading-snug flex-1">
                         {okr.objective}
                      </h2>
-                     <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full ml-4 whitespace-nowrap font-medium">
-                        {okr.keyResults?.length || 0} Key Results
-                     </span>
+                     <div className="flex items-center gap-2 ml-4">
+                        <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full whitespace-nowrap font-medium">
+                           {okr.keyResults?.length || 0} KRs
+                        </span>
+                        <button
+                           onClick={() => onEdit?.(okr)}
+                           className="p-1.5 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                           title="Edit OKR"
+                        >
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                           >
+                              <path
+                                 strokeLinecap="round"
+                                 strokeLinejoin="round"
+                                 strokeWidth={2}
+                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
+                           </svg>
+                        </button>
+                        <button
+                           onClick={() => onDelete?.(okr.id)}
+                           className="p-1.5 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                           title="Delete OKR"
+                        >
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                           >
+                              <path
+                                 strokeLinecap="round"
+                                 strokeLinejoin="round"
+                                 strokeWidth={2}
+                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                           </svg>
+                        </button>
+                     </div>
                   </div>
                   <KeyResultList keyResults={okr.keyResults} />
                </div>

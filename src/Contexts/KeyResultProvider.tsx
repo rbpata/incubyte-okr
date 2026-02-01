@@ -10,9 +10,10 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
          Number(progress) <= 100 &&
          Number(progress) >= 0
       ) {
-         setKeyResultList((prev) => {
-            return [...prev, { description, progress }];
-         });
+         setKeyResultList((prev) => [
+            ...prev,
+            { id: crypto.randomUUID(), description, progress },
+         ]);
       } else {
          alert(
             'Key Result description must be longer than 5 characters and progress must be between 0 and 100.'
@@ -20,9 +21,14 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
       }
    };
 
+   const clearKeyResults = () => {
+      setKeyResultList([]);
+   };
+
    const outSource = {
       keyResultList,
       addKeyResult,
+      clearKeyResults,
    };
 
    return (

@@ -4,9 +4,11 @@ import type { KeyResult } from '../Types/okr_types.ts';
 type KeyResultContextType = {
    keyResultList: KeyResult[];
    addKeyResult?: ({ description, progress }: KeyResult) => void;
+   clearKeyResults: () => void;
 };
 
 export const KeyResultContext = createContext<KeyResultContextType>({
    keyResultList: [],
    addKeyResult: () => {},
+   clearKeyResults: () => {},
 });
