@@ -1,0 +1,164 @@
+{
+   "okrs": [
+      {
+         "id": "okr-1",
+         "objective": "Improve frontend performance",
+         "keyResults": [
+            {
+               "id": "kr-1-1",
+               "description": "Reduce bundle size",
+               "progress": 40
+            },
+            {
+               "id": "kr-1-2",
+               "description": "Improve Lighthouse score",
+               "progress": 55
+            }
+         ]
+      },
+      {
+         "id": "okr-2",
+         "objective": "Increase user engagement",
+         "keyResults": [
+            {
+               "id": "kr-2-1",
+               "description": "Increase daily active users",
+               "progress": 30
+            },
+            {
+               "id": "kr-2-2",
+               "description": "Improve session duration",
+               "progress": 45
+            }
+         ]
+      },
+      {
+         "id": "okr-3",
+         "objective": "Enhance onboarding experience",
+         "keyResults": [
+            {
+               "id": "kr-3-1",
+               "description": "Reduce signup drop-off",
+               "progress": 50
+            },
+            {
+               "id": "kr-3-2",
+               "description": "Add onboarding walkthrough",
+               "progress": 70
+            }
+         ]
+      },
+      {
+         "id": "okr-4",
+         "objective": "Improve code quality",
+         "keyResults": [
+            {
+               "id": "kr-4-1",
+               "description": "Increase test coverage to 80%",
+               "progress": 60
+            },
+            {
+               "id": "kr-4-2",
+               "description": "Reduce lint errors",
+               "progress": 75
+            }
+         ]
+      },
+      {
+         "id": "okr-5",
+         "objective": "Optimize backend APIs",
+         "keyResults": [
+            {
+               "id": "kr-5-1",
+               "description": "Reduce API response time",
+               "progress": 35
+            },
+            {
+               "id": "kr-5-2",
+               "description": "Add caching layer",
+               "progress": 20
+            }
+         ]
+      },
+      {
+         "id": "okr-6",
+         "objective": "Improve accessibility",
+         "keyResults": [
+            {
+               "id": "kr-6-1",
+               "description": "Fix contrast issues",
+               "progress": 65
+            },
+            {
+               "id": "kr-6-2",
+               "description": "Add keyboard navigation",
+               "progress": 50
+            }
+         ]
+      },
+      {
+         "id": "okr-7",
+         "objective": "Scale application reliability",
+         "keyResults": [
+            {
+               "id": "kr-7-1",
+               "description": "Implement error boundaries",
+               "progress": 80
+            },
+            {
+               "id": "kr-7-2",
+               "description": "Add monitoring and alerts",
+               "progress": 40
+            }
+         ]
+      },
+      {
+         "id": "okr-8",
+         "objective": "Enhance security",
+         "keyResults": [
+            {
+               "id": "kr-8-1",
+               "description": "Implement role-based access",
+               "progress": 55
+            },
+            {
+               "id": "kr-8-2",
+               "description": "Run security audit",
+               "progress": 25
+            }
+         ]
+      },
+      {
+         "id": "okr-9",
+         "objective": "Improve mobile experience",
+         "keyResults": [
+            {
+               "id": "kr-9-1",
+               "description": "Fix mobile layout issues",
+               "progress": 70
+            },
+            {
+               "id": "kr-9-2",
+               "description": "Improve touch interactions",
+               "progress": 60
+            }
+         ]
+      },
+      {
+         "id": "okr-10",
+         "objective": "Increase developer productivity",
+         "keyResults": [
+            {
+               "id": "kr-10-1",
+               "description": "Improve local dev setup",
+               "progress": 85
+            },
+            {
+               "id": "kr-10-2",
+               "description": "Add reusable UI components",
+               "progress": 50
+            }
+         ]
+      }
+   ]
+}
