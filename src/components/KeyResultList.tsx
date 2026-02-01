@@ -33,14 +33,14 @@ export default function KeyResultList() {
                      <h3 className="font-semibold text-gray-800">
                         {kr.description}
                      </h3>
-                     <span className="text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                     <span className="text-xs font-medium bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
                         {`${kr.progress}%`}
                      </span>
                   </div>
 
                   <div className="mt-2 h-2 w-full bg-gray-200 rounded-full overflow-hidden">
                      <div
-                        className="h-full bg-linear-to-r from-green-400 to-emerald-500 transition-all"
+                        className="h-full bg-linear-to-r from-blue-300 to-blue-500 transition-all"
                         style={{
                            width: `${parseInt(kr.progress) || 0}%`,
                         }}

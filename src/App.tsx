@@ -1,9 +1,9 @@
-import OkrForm from './OkrForm.tsx';
+import Home from './Home.tsx';
 
 const App = () => {
    return (
       <>
-         <OkrForm />
+         <Home />
       </>
    );
 };
