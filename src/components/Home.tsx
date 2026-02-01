@@ -6,14 +6,18 @@ import { useEffect, useState } from 'react';
 
 const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [fetchOkr, setFetchOkr] = useState<boolean>(true);
     const [okrList, setOkrList] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch('http://localhost:3000/okr');
-            return await res.json();
-        };
-        fetchData().then((r) => setOkrList(r));
-    }, []);
+        if (fetchOkr) {
+            const fetchData = async () => {
+                const res = await fetch('http://localhost:3000/okr');
+                return await res.json();
+            };
+            fetchData().then((r) => setOkrList(r));
+            setFetchOkr(false);
+        }
+    }, [fetchOkr]);
     return (
         <div className={'container relative font-mono bg-white'}>
             <div className={'flex justify-between '}>
@@ -36,7 +40,7 @@ const Home = () => {
                 handleOnClose={() => setIsModalOpen(false)}
             >
                 <KeyResultProvider>
-                    <OkrForm />
+                    <OkrForm setFetchOkr={setFetchOkr} />
                 </KeyResultProvider>
             </Modal>
             <OkrList okrList={okrList} />

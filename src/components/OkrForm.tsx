@@ -1,12 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import KeyResultForm from './KeyResultForm.tsx';
 import KeyResultList from './KeyResultList.tsx';
+import { KeyResultContext } from '../contexts/KeyResultProvider.tsx';
+import type { Okr } from '../types/okr_types.ts';
 
-export default function OkrForm() {
+export default function OkrForm({
+    setFetchOkr,
+}: {
+    setFetchOkr: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+    const { keyResultList } = useContext(KeyResultContext);
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        console.log('Objective is: ' + data.get('objective'));
+        const objective = new FormData(e.currentTarget).get('objective');
+        if (!objective || !keyResultList) {
+            return;
+        }
+        if (keyResultList.length == 0) {
+            alert('Please add Key Results');
+            return;
+        }
+        const okr: Okr = {
+            id: Math.floor(Math.random() * (100 - 10) + 10).toString(),
+            objective: objective.toString(),
+            keyResults: keyResultList,
+        };
+        fetch('http://localhost:3000/okr', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(okr),
+        }).then(() => {
+            setFetchOkr(true);
+            alert('Okr added');
+        });
     };
 
     return (

@@ -7,7 +7,7 @@ const KeyResultForm = () => {
     const [keyResult, setKeyResult] = useState<KeyResult>({
         id: 0,
         description: '',
-        progress: 0,
+        progress: '',
     });
 
     const isDisabled = keyResult.description === '';
@@ -21,7 +21,6 @@ const KeyResultForm = () => {
                     className={'rounded-md border px-3 py-2'}
                     id={'keyResult-description'}
                     name="description"
-                    required={true}
                     value={keyResult.description}
                     placeholder={'Enter Description'}
                     onChange={(e) => {
@@ -46,7 +45,6 @@ const KeyResultForm = () => {
                             [e.target.name]: e.target.value,
                         });
                     }}
-                    required={true}
                 />
             </div>
 
@@ -64,7 +62,7 @@ const KeyResultForm = () => {
                     setKeyResult({
                         id: 0,
                         description: '',
-                        progress: 0,
+                        progress: '',
                     });
                 }}
                 disabled={isDisabled}

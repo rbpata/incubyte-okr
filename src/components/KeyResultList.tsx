@@ -25,7 +25,7 @@ const KeyResultList = () => {
                             <p>
                                 Key Result Progress is :{' '}
                                 {handleKeyResultProgressValue(
-                                    keyResult.progress
+                                    parseInt(keyResult.progress, 10)
                                 ) + '%'}
                             </p>
                         </div>
