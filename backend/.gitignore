@@ -62,7 +62,7 @@ node-repl.history
 # Lockfiles — keep them tracked (do not ignore)
 /# package-lock.json
 /# yarn.lock
-/# pnpm-lock.yaml
+/#pnpm-lock.yaml
 
 # File for local secrets (examples kept tracked)
 !.env.example
