@@ -1,0 +1,28 @@
+GET http://localhost:3000/health
+Accept: application/json
+
+###
+GET http://localhost:3000/okr
+Accept: application/json
+###
+POST http://localhost:3000/okr
+Content-Type: application/json
+
+{
+    "objective": "Learn React1",
+    "keyResults": [
+        {
+
+            "description": "Understand JSX and rendering",
+            "progress": 80
+        },
+        {
+            "description": "Build reusable components",
+            "progress": 70
+        },
+        {
+            "description": "Master React Hooks",
+            "progress": 60
+        }
+    ]
+}
