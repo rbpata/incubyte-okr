@@ -115,14 +115,14 @@ const OkrList = ({ okrs, onEdit, onDelete }: OkrListProps) => {
                            </svg>
                         </button>
                         <button
-                            onClick={() => {
-                                const confirmed = window.confirm(
-                                    'Are you sure you want to delete this OKR?'
-                                );
-                                if (confirmed) {
-                                    onDelete?.(okr.id);
-                                }
-                            }}
+                           onClick={() => {
+                              const confirmed = window.confirm(
+                                 'Are you sure you want to delete this OKR?'
+                              );
+                              if (confirmed) {
+                                 onDelete?.(okr.id);
+                              }
+                           }}
                            className="p-1.5 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                            title="Delete OKR"
                         >
