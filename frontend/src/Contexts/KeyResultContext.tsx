@@ -12,5 +12,5 @@ export const KeyResultContext = createContext<KeyResultContextType>({
    keyResultList: [],
    addKeyResult: () => {},
    clearKeyResults: () => {},
-    setKeyResults: () => {},
+   setKeyResults: () => {},
 });

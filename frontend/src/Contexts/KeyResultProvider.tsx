@@ -25,11 +25,9 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
       setKeyResultList([]);
    };
 
-
    const setKeyResults = (keyResults: KeyResult[]) => {
-        setKeyResultList(keyResults);
+      setKeyResultList(keyResults);
    };
-
 
    const outSource = {
       keyResultList,

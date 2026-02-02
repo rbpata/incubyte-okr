@@ -13,7 +13,8 @@ interface OkrFormProps {
 
 export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
    const isEditMode = Boolean(initialOkr);
-   const { keyResultList, clearKeyResults, setKeyResults } = useContext(KeyResultContext);
+   const { keyResultList, clearKeyResults, setKeyResults } =
+      useContext(KeyResultContext);
 
    const [objective, setObjective] = useState('');
 
