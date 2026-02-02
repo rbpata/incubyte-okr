@@ -1,0 +1,1 @@
+{"version":3,"file":"okr-service.d.ts","sourceRoot":"","sources":["../../okr/okr-service.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAC,GAAG,EAAC,MAAM,YAAY,CAAC;AAGpC,cAAM,UAAU;IACZ,OAAO,CAAC,QAAQ,CAAO;;IAKvB,UAAU;IAIV,SAAS,CAAC,GAAG,EAAC,GAAG;CAWpB;AACD,eAAe,UAAU,CAAC"}

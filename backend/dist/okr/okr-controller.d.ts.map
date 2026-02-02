@@ -1,0 +1,1 @@
+{"version":3,"file":"okr-controller.d.ts","sourceRoot":"","sources":["../../okr/okr-controller.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,UAAU,MAAM,kBAAkB,CAAC;AAE/C,cAAM,aAAa;IACH,OAAO,CAAC,QAAQ,CAAC,UAAU;gBAAV,UAAU,EAAC,UAAU;IAClD,UAAU,CAAC,GAAG,EAAC,GAAG,EAAC,GAAG,EAAC,GAAG;IAI1B,SAAS,CAAC,GAAG,EAAC,GAAG,EAAC,GAAG,EAAC,GAAG;CAK5B;AACD,eAAe,aAAa,CAAC"}
