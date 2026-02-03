@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ObjectiveController } from './objective.controller';
-import { ObjectiveService } from './objective.service';
+import ObjectiveController from './objective.controller';
+import ObjectiveService from './objective.service';
 
 
 @Module({
