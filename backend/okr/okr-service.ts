@@ -3,6 +3,7 @@ import {okrList} from "./data.js";
 
 class OkrService {
     private okrList1:Okr[];
+
     constructor() {
         this.okrList1=okrList;
     }
@@ -21,6 +22,21 @@ class OkrService {
         return this.okrList1;
     }
 
+    deleteOkr(id: string) {
+        this.okrList1=this.okrList1.filter((okr)=>okr.id!==id);
+        return this.okrList1;
+    }
+
+    updateOkr(id: string, okr: Okr) {
+        this.okrList1 = this.okrList1.map((okrOriginal: Okr) => {
+            if (okrOriginal.id === id) {
+                return okr;
+            } else {
+                return okrOriginal;
+            }
+        })
+        return this.okrList1;
+    }
 
 }
 export default OkrService;

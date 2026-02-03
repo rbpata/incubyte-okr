@@ -4,6 +4,7 @@ Accept: application/json
 ###
 GET http://localhost:3000/okr
 Accept: application/json
+
 ###
 POST http://localhost:3000/okr
 Content-Type: application/json
@@ -23,6 +24,37 @@ Content-Type: application/json
         {
             "description": "Master React Hooks",
             "progress": 60
+        }
+    ]
+}
+
+###
+DELETE http://localhost:3000/okr/4
+Accept: application/json
+
+###
+PUT http://localhost:3000/okr/2
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": "4",
+    "objective": "Learn ReactJS",
+    "keyResults": [
+        {
+            "id": "1456",
+            "description": "ruby on rails",
+            "progress": 90
+        },
+        {
+            "id": "1457",
+            "description": "something on train",
+            "progress": 85
+        },
+        {
+            "id": "1458",
+            "description": "may be on plane",
+            "progress": 75
         }
     ]
 }

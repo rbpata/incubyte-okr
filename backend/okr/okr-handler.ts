@@ -9,6 +9,12 @@ const okrHandler=(okrController:OkrController)=>{
     router.post('/',(req,res)=>{
         okrController.createOkr(req,res);
     });
+    router.delete(('/:id'),(req,res) => {
+        okrController.deleteOkr(req,res);
+    })
+    router.put('/:id', (req,res)=>{
+        okrController.updateOkr(req,res);
+    })
     return router
 }
 export default okrHandler;
