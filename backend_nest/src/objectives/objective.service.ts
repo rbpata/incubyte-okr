@@ -1,6 +1,8 @@
-import { Injectable, Body } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { ObjectiveDto } from './dto/objective.dto';
+import { CreateObjectiveDto } from './dto/create-objective.dto';
+import { UpdateObjectiveDto } from './dto/update-objective.dto';
+
 @Injectable()
 class ObjectiveService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -8,11 +10,23 @@ class ObjectiveService {
     return this.prismaService.objective.findMany();
   }
 
-  create(createObjectiveDto: ObjectiveDto) {
-    const createdObjective = this.prismaService.objective.create({
+  create(createObjectiveDto: CreateObjectiveDto) {
+    return this.prismaService.objective.create({
       data: createObjectiveDto,
     });
-    return createdObjective;
+  }
+
+  update(id: number, updateObjectiveDto: UpdateObjectiveDto) {
+    return this.prismaService.objective.update({
+      where: { id },
+      data: updateObjectiveDto,
+    });
+  }
+
+  delete(id: number) {
+    return this.prismaService.objective.delete({
+      where: { id },
+    });
   }
 }
 
