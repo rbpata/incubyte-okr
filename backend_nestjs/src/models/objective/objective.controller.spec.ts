@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OkrController } from './okr.controller';
+import { ObjectiveController } from './objective.controller';
 
-describe('OkrController', () => {
-  let controller: OkrController;
+describe('ObjectiveController', () => {
+  let controller: ObjectiveController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [OkrController],
+      controllers: [ObjectiveController],
     }).compile();
 
-    controller = module.get<OkrController>(OkrController);
+    controller = module.get<ObjectiveController>(ObjectiveController);
   });
 
   it('should be defined', () => {

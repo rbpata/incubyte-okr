@@ -1,28 +1,50 @@
-GET http://localhost:3000/health
+GET http://localhost:3000/v2/objective/health
 Accept: application/json
+Authorization: SECRET
+
 
 ###
-GET http://localhost:3000/okr
+GET http://localhost:3000/v2/objective
 Accept: application/json
+Authorization: SECRET
+
 ###
-POST http://localhost:3000/okr
+POST http://localhost:3000/v2/objective/
 Content-Type: application/json
 
 {
-    "objective": "Learn React1",
-    "keyResults": [
-        {
-
-            "description": "Understand JSX and rendering",
-            "progress": 80
-        },
-        {
-            "description": "Build reusable components",
-            "progress": 70
-        },
-        {
-            "description": "Master React Hooks",
-            "progress": 60
-        }
-    ]
+    "title":"LEARN NestJS"
 }
+
+###
+PUT http://localhost:3000/v2/objective/
+Content-Type: application/json
+
+{
+  "id": "230b56af-8fe0-481e-a121-b62ad5811c28",
+  "title":"LEARN NESTJS"
+}
+
+###
+POST http://localhost:3000/v2/objective/
+Content-Type: application/json
+
+{
+  "objective": "Learn React1",
+  "keyResults": [
+    {
+      "description": "Understand JSX and rendering",
+      "progress": 80
+    },
+    {
+      "description": "Build reusable components",
+      "progress": 70
+    },
+    {
+      "description": "Master React Hooks",
+      "progress": 60
+    }
+  ]
+}
+
+

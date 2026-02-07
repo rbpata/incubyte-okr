@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OkrService } from './okr.service';
+import { KeyResultService } from './key-result.service';
 
-describe('OkrService', () => {
-  let service: OkrService;
+describe('KeyResultService', () => {
+  let service: KeyResultService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OkrService],
+      providers: [KeyResultService],
     }).compile();
 
-    service = module.get<OkrService>(OkrService);
+    service = module.get<KeyResultService>(KeyResultService);
   });
 
   it('should be defined', () => {
