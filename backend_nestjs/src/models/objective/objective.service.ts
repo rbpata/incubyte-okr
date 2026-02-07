@@ -90,15 +90,14 @@ export class ObjectiveService {
                 },
             )
             .map((kr) => kr.id);
-
-        this.keyResultService.deleteAll(keyResultsToBeDeleted);
-        updateObjectiveDto.keyResults.forEach((keyResult) => {
+        await this.keyResultService.deleteAll(keyResultsToBeDeleted);
+        for (const keyResult of updateObjectiveDto.keyResults) {
             if (keyResult.id) {
-                this.keyResultService.update(keyResult);
+                await this.keyResultService.update(keyResult);
             } else {
-                this.keyResultService.create(keyResult, objective.id);
+                await this.keyResultService.create(keyResult, objective.id);
             }
-        });
+        }
 
         return this.getOneById(objective.id);
     }

@@ -7,7 +7,7 @@ export class PrismaService extends PrismaClient {
     constructor() {
         const adapter = new PrismaPg({
             connectionString:
-                'postgresql://postgres1:postgres1@localhost:5432/okrs',
+                'postgresql://postgres1:postgres1@localhost:5433/okrs',
         });
         super({
             adapter,

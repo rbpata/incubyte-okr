@@ -16,7 +16,7 @@ export class KeyResultService {
         });
     }
 
-    update(updateKeyResultDto: KeyResultDto) {
+    async update(updateKeyResultDto: KeyResultDto) {
         return this.prismaService.keyResult.update({
             where: {
                 id: updateKeyResultDto.id,
@@ -32,7 +32,7 @@ export class KeyResultService {
         });
     }
     deleteAll(keyResultIds: string[]) {
-        this.prismaService.keyResult.deleteMany({
+        return this.prismaService.keyResult.deleteMany({
             where: {
                 id: {
                     in: keyResultIds,

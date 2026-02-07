@@ -19,6 +19,10 @@ export class ObjectiveController {
     getAll() {
         return this.objectiveService.getAll();
     }
+    @Get(':id')
+    getOneById(@Param('id') id: string) {
+        return this.objectiveService.getOneById(id);
+    }
     @Get('/health')
     health() {
         return 'ok';
@@ -34,7 +38,7 @@ export class ObjectiveController {
 
     @Put('/')
     update(@Body() updateObjectiveDto: ObjectiveDto) {
-        return;
+        return this.objectiveService.update(updateObjectiveDto);
     }
     @Delete('/:id')
     delete(@Param('id') id: string) {
