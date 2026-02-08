@@ -11,8 +11,6 @@ export class KeyResultsService {
     return this.prisma.keyResult.findMany();
   }
 
-
-
   async getKeyResultById(id: number) {
     const keyResult = await this.prisma.keyResult.findUnique({
       where: { id },
