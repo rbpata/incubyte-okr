@@ -4,7 +4,7 @@ import KeyResultListForm from './KeyResultListForm';
 import { KeyResultContext } from '../Contexts/KeyResultContext';
 import type { OkrType } from '../Types/okr_types';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'http://localhost:3000';
 
 interface OkrFormProps {
    initialOkr?: OkrType | null;
@@ -20,45 +20,92 @@ export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
 
    useEffect(() => {
       if (isEditMode && initialOkr) {
-         setObjective(initialOkr.objective);
-         setKeyResults(initialOkr.keyResults);
+         setObjective(initialOkr.title);
+         setKeyResults(initialOkr.keyResults || []);
+      } else {
+         setObjective('');clearKeyResults();
       }
-   }, [isEditMode, initialOkr, setKeyResults]);
+   }, [isEditMode, initialOkr, setKeyResults, clearKeyResults]);
 
    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
-
       if (!objective || keyResultList.length === 0) {
-         alert('Objective and at least one Key Result are required');
+         alert('Objective and at least one Key Result are required.');
          return;
       }
 
-      const okr: OkrType = {
-         id: initialOkr?.id ?? crypto.randomUUID(),
-         objective,
-         keyResults: keyResultList,
-      };
-
       try {
          const res = await fetch(
-            isEditMode ? `${BASE_URL}/okrs/${okr.id}` : `${BASE_URL}/okrs`,
+            isEditMode
+               ? `${BASE_URL}/okr/objectives/${initialOkr?.id}`
+               : `${BASE_URL}/okr/objectives`,
             {
-               method: isEditMode ? 'PATCH' : 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(okr),
+               method: isEditMode ? 'PUT' : 'POST',
+               headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: 'secretkey',
+               },
+               body: JSON.stringify({
+                  title: objective,
+               }),
             }
          );
 
-         if (!res.ok) throw new Error('Failed to save OKR');
+         if (!res.ok) {
+            throw new Error(
+               `Failed to ${isEditMode ? 'update' : 'create'} OKR`
+            );
+         }
 
-         const savedOkr = await res.json();
+         const savedObjective = await res.json();
+         const objectiveId = savedObjective.id;
+
+         if (isEditMode) {
+            await updateKeyResults(objectiveId);
+         } else {
+            await saveKeyResults(objectiveId);
+         }
+
+         const updatedRes = await fetch(`${BASE_URL}/okr/objectives`, {
+            headers: { Authorization: 'secretkey' }
+         });
+         const updatedObjectives = await updatedRes.json();
+         const updatedOkr = updatedObjectives.find((obj: OkrType) => obj.id === objectiveId);
 
          clearKeyResults();
-         onSave?.(savedOkr, isEditMode);
+         onSave?.(updatedOkr, isEditMode);
+
       } catch (error) {
          console.error(error);
-         alert('Something went wrong while saving OKR');
+         alert(
+            `Something went wrong while ${isEditMode ? 'updating' : 'creating'} OKR`
+         );
       }
+   };
+
+   const saveKeyResults = async (objectiveId: number) => {
+      return fetch(`${BASE_URL}/okr/objectives/${objectiveId}/key-results/`, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'secretkey',
+         },
+         body: JSON.stringify(keyResultList),
+      });
+   };
+
+   const updateKeyResults = async (objectiveId: number) => {
+      const existingKRs = initialOkr?.keyResults || [];
+
+      for (const kr of existingKRs) {
+         await fetch(`${BASE_URL}/okr/objectives/${objectiveId}/key-results/${kr.id}`, {
+            method: 'DELETE',
+            headers: { Authorization: 'secretkey' }
+         });
+      }
+
+      // Create new key results
+      await saveKeyResults(objectiveId);
    };
 
    return (

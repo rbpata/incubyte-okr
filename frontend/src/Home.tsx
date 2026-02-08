@@ -9,18 +9,33 @@ const Home = () => {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [okrs, setOkrs] = useState<OkrType[]>([]);
    const [editingOkr, setEditingOkr] = useState<OkrType | null>(null);
-   const BASE_URL = 'http://localhost:3001';
+   const BASE_URL = 'http://localhost:3000/okr';
+
+   const fetchOkrs = async () => {
+      try {
+         const res = await fetch(`${BASE_URL}/objectives`, {
+            headers: {
+               Authorization: 'secretkey',
+            },
+         });
+         const data = await res.json();
+         setOkrs(data);
+      } catch (error) {
+         console.error('Failed to fetch OKRs:', error);
+      }
+   };
 
    useEffect(() => {
-      fetch(`${BASE_URL}/okrs`)
-         .then((res) => res.json())
-         .then((data) => setOkrs(data));
-   }, [okrs]);
+      fetchOkrs();
+   }, []);
 
    const deleteOkr = async (id: string | number) => {
       try {
-         const res = await fetch(`${BASE_URL}/okrs/${id}`, {
+         const res = await fetch(`${BASE_URL}/objectives/${id}`, {
             method: 'DELETE',
+            headers: {
+               Authorization: 'secretkey',
+            },
          });
 
          if (!res.ok) throw new Error('Failed to delete OKR');
@@ -32,12 +47,9 @@ const Home = () => {
       }
    };
 
-   const handleSaveOkr = (newOkr: OkrType) => {
-      if (editingOkr) {
-         setOkrs((prevOkrs) =>
-            prevOkrs.map((okr) => (okr.id === newOkr.id ? newOkr : okr))
-         );
-         setEditingOkr(null);
+   const handleSaveOkr = async (newOkr: OkrType, isEdit: boolean) => {
+      if (isEdit) {
+         await fetchOkrs();
       } else {
          setOkrs((prevOkrs) => [...prevOkrs, newOkr]);
       }
@@ -74,7 +86,13 @@ const Home = () => {
                </div>
             </main>
 
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <Modal
+               isOpen={isModalOpen}
+               onClose={() => {
+                  setIsModalOpen(false);
+                  setEditingOkr(null);
+               }}
+            >
                <OkrForm initialOkr={editingOkr} onSave={handleSaveOkr} />
             </Modal>
          </div>

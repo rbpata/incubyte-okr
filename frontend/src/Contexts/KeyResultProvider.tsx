@@ -4,7 +4,14 @@ import { KeyResultContext } from './KeyResultContext.tsx';
 
 const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
    const [keyResultList, setKeyResultList] = React.useState<KeyResult[]>([]);
-   const addKeyResult = ({ description, progress }: KeyResult) => {
+
+   const addKeyResult = ({
+      description,
+      progress,
+   }: {
+      description: string;
+      progress: string;
+   }) => {
       if (
          description.length > 5 &&
          Number(progress) <= 100 &&
@@ -12,13 +19,27 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
       ) {
          setKeyResultList((prev) => [
             ...prev,
-            { id: crypto.randomUUID(), description, progress },
+            {
+               id: Date.now(), // Use number instead of string
+               description,
+               progress: progress,
+            },
          ]);
       } else {
          alert(
             'Key Result description must be longer than 5 characters and progress must be between 0 and 100.'
          );
       }
+   };
+
+   const updateKeyResult = (id: number, updatedKeyResult: KeyResult) => {
+      setKeyResultList((prev) =>
+         prev.map((kr) => (kr.id === id ? updatedKeyResult : kr))
+      );
+   };
+
+   const removeKeyResult = (id: number) => {
+      setKeyResultList((prev) => prev.filter((kr) => kr.id !== id));
    };
 
    const clearKeyResults = () => {
@@ -32,6 +53,8 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
    const outSource = {
       keyResultList,
       addKeyResult,
+      updateKeyResult,
+      removeKeyResult,
       clearKeyResults,
       setKeyResults,
    };
@@ -42,4 +65,5 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
       </KeyResultContext.Provider>
    );
 };
+
 export default KeyResultProvider;

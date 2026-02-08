@@ -88,7 +88,7 @@ const OkrList = ({ okrs, onEdit, onDelete }: OkrListProps) => {
                >
                   <div className="flex items-start justify-between mb-4 pb-3 border-b border-gray-100">
                      <h2 className="text-xl font-semibold text-gray-800 leading-snug flex-1">
-                        {okr.objective}
+                        {okr.title}
                      </h2>
                      <div className="flex items-center gap-2 ml-4">
                         <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full whitespace-nowrap font-medium">

@@ -1,11 +1,11 @@
 export type KeyResult = {
-   id: string;
+   id: number;
    description: string;
    progress: string;
 };
 
 export type OkrType = {
-   id: string;
-   objective: string;
+   id: number;
+   title: string;
    keyResults: KeyResult[];
 };
