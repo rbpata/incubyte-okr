@@ -7,14 +7,16 @@ import {
   Param,
   Delete,
   UseFilters,
+  ParseIntPipe,
 } from '@nestjs/common';
 import ObjectiveService from './objective.service';
-import { type CreateObjectiveDto } from './dto/create-objective.dto';
-import { type UpdateObjectiveDto } from './dto/update-objective.dto';
+import { CreateObjectiveDto } from './dto/create-objective.dto';
+import { UpdateObjectiveDto } from './dto/update-objective.dto';
 import {
   HttpExceptionFilter,
   ObjectiveNotAllowedException,
 } from '../common/filters/http-exception.filter';
+import { ObjectiveTitlePipe } from '../common/pipes/objective-title.pipe';
 
 @UseFilters(HttpExceptionFilter, ObjectiveNotAllowedException)
 @Controller('okr/objectives')
@@ -27,21 +29,21 @@ class ObjectiveController {
   }
 
   @Post()
-  create(@Body() createObjectiveDto: CreateObjectiveDto) {
-    return this.objectiveService.create(createObjectiveDto);
+  create(@Body(ObjectiveTitlePipe) title: string) {
+    return this.objectiveService.create({ title });
   }
 
   @Put(':id')
   update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateObjectiveDto: UpdateObjectiveDto,
   ) {
-    return this.objectiveService.update(Number(id), updateObjectiveDto);
+    return this.objectiveService.update(id, updateObjectiveDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return this.objectiveService.delete(Number(id));
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.objectiveService.delete(id);
   }
 }
 

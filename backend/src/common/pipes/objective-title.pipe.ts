@@ -1,17 +1,31 @@
-import { PipeTransform } from '@nestjs/common';
+import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
 
-export class ObjectiveTitlePipe implements PipeTransform<string, string> {
-  transform(value: string): string {
-    if (typeof value !== 'string') {
-      throw new Error('Title must be a string');
+@Injectable()
+export class ObjectiveTitlePipe implements PipeTransform<
+  { title?: unknown },
+  string
+> {
+  transform(value: { title?: unknown }): string {
+    if (!value || typeof value !== 'object') {
+      throw new BadRequestException('Request body is invalid');
     }
-    const trimmedValue = value.trim();
-    if (trimmedValue.length < 5) {
-      throw new Error('Title must be at least 5 characters long');
+
+    const title = value.title;
+
+    if (typeof title !== 'string') {
+      throw new BadRequestException('Title must be a string');
     }
-    if (trimmedValue.length > 100) {
-      throw new Error('Title must not exceed 100 characters');
+
+    const trimmed = title.trim();
+
+    if (trimmed.length === 0) {
+      throw new BadRequestException('Title cannot be empty');
     }
-    return trimmedValue;
+
+    if (trimmed.length < 5) {
+      throw new BadRequestException('Title must be at least 5 characters long');
+    }
+
+    return trimmed;
   }
 }
