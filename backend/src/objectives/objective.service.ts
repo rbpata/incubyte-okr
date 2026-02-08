@@ -13,8 +13,6 @@ class ObjectiveService {
     });
   }
 
-
-
   async create(createObjectiveDto: CreateObjectiveDto) {
     const objective = await this.prismaService.objective.findFirst({
       where: {
