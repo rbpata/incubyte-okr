@@ -1,40 +1,48 @@
-import type { KeyResult } from '../Types/okr_types.ts';
-import React, { type JSX } from 'react';
 import { KeyResultContext } from './KeyResultContext.tsx';
+import React from 'react';
+import type { KeyResult } from '../Types/okr_types.ts';
 
-const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
+const KeyResultProvider = ({ children }: { children: React.ReactNode }) => {
    const [keyResultList, setKeyResultList] = React.useState<KeyResult[]>([]);
 
    const addKeyResult = ({
-      description,
-      progress,
-   }: {
+                            description,
+                            progress,
+                         }: {
       description: string;
       progress: string;
    }) => {
-      if (
-         description.length > 5 &&
-         Number(progress) <= 100 &&
-         Number(progress) >= 0
-      ) {
+      const numericProgress = Number(progress);
+      const isValidProgress =
+         Number.isFinite(numericProgress) &&
+         numericProgress >=0 &&
+         numericProgress <=100;
+
+      if (description.trim().length >5 && isValidProgress) {
          setKeyResultList((prev) => [
             ...prev,
             {
-               id: Date.now(), // Use number instead of string
-               description,
-               progress: progress,
+               id: Date.now(),
+               description: description.trim(),
+               progress: numericProgress.toString(),
             },
          ]);
       } else {
          alert(
-            'Key Result description must be longer than 5 characters and progress must be between 0 and 100.'
+            'Key Result description must be longer than5 characters and progress must be between0 and100.'
          );
       }
    };
 
    const updateKeyResult = (id: number, updatedKeyResult: KeyResult) => {
       setKeyResultList((prev) =>
-         prev.map((kr) => (kr.id === id ? updatedKeyResult : kr))
+         prev.map((kr) =>
+            kr.id === id ? {
+                  ...updatedKeyResult,
+                  progress: Number(updatedKeyResult.progress).toString(),
+                  description: updatedKeyResult.description.trim(),
+               }
+               : kr )
       );
    };
 
@@ -47,7 +55,13 @@ const KeyResultProvider = ({ children }: { children: JSX.Element }) => {
    };
 
    const setKeyResults = (keyResults: KeyResult[]) => {
-      setKeyResultList(keyResults);
+      setKeyResultList(
+         keyResults.map((kr) => ({
+            ...kr,
+            progress: Number(kr.progress).toString(),
+            description: kr.description.trim(),
+         }))
+      );
    };
 
    const outSource = {

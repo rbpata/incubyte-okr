@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
 import KeyResultList from './KeyResultList';
 import KeyResultListForm from './KeyResultListForm';
 import { KeyResultContext } from '../Contexts/KeyResultContext';
 import type { OkrType } from '../Types/okr_types';
+import { useState, useEffect, useContext } from 'react';
+import React from 'react';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -23,11 +24,12 @@ export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
          setObjective(initialOkr.title);
          setKeyResults(initialOkr.keyResults || []);
       } else {
-         setObjective('');clearKeyResults();
-      }
-   }, [isEditMode, initialOkr, setKeyResults, clearKeyResults]);
+         setObjective('');
+         clearKeyResults();
+      } // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [isEditMode, initialOkr?.id]);
 
-   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!objective || keyResultList.length === 0) {
          alert('Objective and at least one Key Result are required.');
@@ -67,14 +69,15 @@ export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
          }
 
          const updatedRes = await fetch(`${BASE_URL}/okr/objectives`, {
-            headers: { Authorization: 'secretkey' }
+            headers: { Authorization: 'secretkey' },
          });
          const updatedObjectives = await updatedRes.json();
-         const updatedOkr = updatedObjectives.find((obj: OkrType) => obj.id === objectiveId);
+         const updatedOkr = updatedObjectives.find(
+            (obj: OkrType) => obj.id === objectiveId
+         );
 
          clearKeyResults();
          onSave?.(updatedOkr, isEditMode);
-
       } catch (error) {
          console.error(error);
          alert(
@@ -83,6 +86,20 @@ export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
       }
    };
 
+   const formatKeyResultPayload = () =>
+      keyResultList.map(
+         ({
+            description,
+            progress,
+         }: {
+            description: string;
+            progress: string;
+         }) => ({
+            description: description?.trim(),
+            progress: Number(progress),
+         })
+      );
+
    const saveKeyResults = async (objectiveId: number) => {
       return fetch(`${BASE_URL}/okr/objectives/${objectiveId}/key-results/`, {
          method: 'POST',
@@ -90,7 +107,7 @@ export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
             'Content-Type': 'application/json',
             Authorization: 'secretkey',
          },
-         body: JSON.stringify(keyResultList),
+         body: JSON.stringify(formatKeyResultPayload()),
       });
    };
 
@@ -98,13 +115,15 @@ export default function OkrForm({ initialOkr, onSave }: OkrFormProps) {
       const existingKRs = initialOkr?.keyResults || [];
 
       for (const kr of existingKRs) {
-         await fetch(`${BASE_URL}/okr/objectives/${objectiveId}/key-results/${kr.id}`, {
-            method: 'DELETE',
-            headers: { Authorization: 'secretkey' }
-         });
+         await fetch(
+            `${BASE_URL}/okr/objectives/${objectiveId}/key-results/${kr.id}`,
+            {
+               method: 'DELETE',
+               headers: { Authorization: 'secretkey' },
+            }
+         );
       }
 
-      // Create new key results
       await saveKeyResults(objectiveId);
    };
 
