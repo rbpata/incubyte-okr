@@ -1,8 +1,10 @@
-export class DuplicateObjectiveNotAllowedException extends Error {
-  constructor(objectiveName: string) {
+import { HttpException, HttpStatus } from '@nestjs/common';
+
+export class ObjectiveNotAllowedException extends HttpException {
+  constructor() {
     super(
-      `An objective with the name - ${objectiveName} - already exists. Duplicate objectives are not allowed.`,
+      'You are not allowed to perform this action on the objective',
+      HttpStatus.FORBIDDEN,
     );
-    this.name = `An objective with the name - ${objectiveName} - already exists. Duplicate objectives are not allowed.`;
   }
 }

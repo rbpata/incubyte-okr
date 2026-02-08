@@ -2,28 +2,32 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
+  HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ObjectiveNotFoundException } from '../exceptions/objective-not-found.exception';
-import { DuplicateObjectiveNotAllowedException } from '../exceptions/objective-not-allowed.exception';
 
-@Catch(ObjectiveNotFoundException)
+@Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: ObjectiveNotFoundException, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response: Response = ctx.getResponse<Response>();
+    const response = ctx.getResponse<Response>();
 
-    response.status(HttpStatus.INTERNAL_SERVER_ERROR).send(exception);
-  }
-}
+    if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+      const message = exception.getResponse();
 
-@Catch(DuplicateObjectiveNotAllowedException)
-export class ObjectiveNotAllowedException implements ExceptionFilter {
-  catch(exception: DuplicateObjectiveNotAllowedException, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response: Response = ctx.getResponse<Response>();
+      return response.status(status).json({
+        statusCode: status,
+        error: message,
+        timestamp: new Date().toISOString(),
+      });
+    }
 
-    response.status(HttpStatus.CONFLICT).send(exception);
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      error: 'Internal server error',
+      timestamp: new Date().toISOString(),
+    });
   }
 }

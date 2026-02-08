@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CreateObjectiveDto } from './dto/create-objective.dto';
 import { UpdateObjectiveDto } from './dto/update-objective.dto';
-import { DuplicateObjectiveNotAllowedException } from '../common/exceptions/objective-not-allowed.exception';
+import { ObjectiveAlreadyExistsException } from '../common/exceptions/objective-already-exists.exception';
 
 @Injectable()
 class ObjectiveService {
@@ -27,7 +27,7 @@ class ObjectiveService {
         data: createObjectiveDto,
       });
     } else {
-      throw new DuplicateObjectiveNotAllowedException(createObjectiveDto.title);
+      throw new ObjectiveAlreadyExistsException(createObjectiveDto.title);
     }
   }
 
