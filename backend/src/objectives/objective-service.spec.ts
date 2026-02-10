@@ -203,7 +203,7 @@ describe('ObjectiveService', () => {
 
       const result = await objectiveService.getStatus(1);
 
-      expect(result).toBe(false);
+      expect(result).toEqual({ isCompleted: false, progress: 50 });
     });
 
     it.each([
@@ -216,7 +216,7 @@ describe('ObjectiveService', () => {
 
       const result = await objectiveService.getStatus(1);
 
-      expect(result).toBe(true);
+      expect(result).toEqual({ isCompleted: true, progress });
     });
 
     it('should throw ObjectiveNotFoundException if objective not found', async () => {

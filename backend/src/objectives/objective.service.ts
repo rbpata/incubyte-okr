@@ -71,16 +71,25 @@ class ObjectiveService {
     if (!objective) {
       throw new ObjectiveNotFoundException(objectiveId);
     }
-    return this.calculateCompleteness(objective.keyResults);
+    const result = this.calculateCompleteness(objective.keyResults);
+    return result;
   }
 
   private calculateCompleteness(keyResults: KeyResult[]) {
+    let isCompleted: boolean = true;
+    let totalPercenatage = 0;
+    let progress = 100;
     for (const keyResult of keyResults) {
       if (keyResult.progress < 100) {
-        return false;
+        isCompleted = false;
       }
+      totalPercenatage += keyResult.progress;
     }
-    return true;
+    if (keyResults.length > 0) {
+      progress = totalPercenatage / keyResults.length;
+    }
+
+    return { isCompleted, progress };
   }
 
   async getById(id: number) {
