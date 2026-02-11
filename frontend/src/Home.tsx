@@ -69,7 +69,7 @@ const Home = () => {
                      setEditingOkr(null);
                   }}
                >
-                  + Add OKR
+                  + Add Objective
                </button>
             </header>
 
