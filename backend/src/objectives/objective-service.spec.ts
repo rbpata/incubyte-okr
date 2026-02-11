@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Test } from '@nestjs/testing';
 import ObjectiveService from './objective.service';
 import { PrismaService } from '../prisma.service';
@@ -9,12 +10,12 @@ describe('ObjectiveService', () => {
 
   const mockPrismaService = {
     objective: {
-      findMany: jest.fn(),
-      findUnique: jest.fn(),
-      findFirst: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
+      findMany: vi.fn(),
+      findUnique: vi.fn(),
+      findFirst: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
     },
   };
 
@@ -30,7 +31,7 @@ describe('ObjectiveService', () => {
     }).compile();
 
     objectiveService = module.get<ObjectiveService>(ObjectiveService);
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const getMockObjective = (progress: number[] = []) => ({
