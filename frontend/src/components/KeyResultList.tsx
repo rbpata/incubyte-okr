@@ -92,9 +92,8 @@ export default function KeyResultList() {
                      className={`p-4 rounded-xl border transition-all duration-200 ${
                         isEditing
                            ? 'bg-blue-200 border-blue-400 shadow-md'
-                           : index % 2 !== 0
-                           ? 'bg-blue-100 border-blue-300 hover:shadow-md'
-                           : ''
+                           : index % 2 === 0 ? 'bg-pink-100 border-blue-300 hover:shadow-md': 'bg-blue-100 border-blue-300 hover:shadow-md'
+                     
                      }`}
                   >
                      {isEditing ? (
