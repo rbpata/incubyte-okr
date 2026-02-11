@@ -61,7 +61,7 @@ const Home = () => {
       <KeyResultProvider>
          <div className="min-h-screen bg-gray-50 flex flex-col">
             <header className="flex justify-between items-center px-6 md:px-10 py-5 bg-white border-b border-gray-200 shadow-sm">
-               <h1 className="text-2xl font-semibold text-gray-800">My OKRs</h1>
+               <h1 className="text-2xl font-semibold text-gray-800">Team AR's Objectives and Key Results</h1>
                <button
                   className="px-5 py-2.5 bg-pink-600 text-white rounded-lg shadow hover:bg-pink-700 transition-colors font-medium"
                   onClick={() => {
