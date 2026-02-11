@@ -16,7 +16,7 @@ function KeyResultItem({ kr, index }: { kr: KeyResult; index: number }) {
 
    return (
       <li className={`flex items-center justify-between py-3 border-b border-gray-100 last:border-0 rounded-lg px-3 ${
-         index % 2 !== 0 ? 'bg-blue-100' : 'bg-transparent'
+         index % 2 !== 0 && 'bg-pink-100'
       }`}>
          <span className="text-gray-700 text-base flex-1 pr-4">
             {kr.description}
