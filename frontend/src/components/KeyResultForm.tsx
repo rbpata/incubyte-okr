@@ -77,7 +77,7 @@ const KeyResultForm = () => {
                         onChange={(e) => {
                             setKeyResult({
                                 ...keyResult,
-                                [e.target.name]: e.target.value,
+                                [e.target.name]: e.target.valueAsNumber,
                             });
                         }}
                     />
@@ -92,7 +92,7 @@ const KeyResultForm = () => {
                         onChange={(e) => {
                             setKeyResult({
                                 ...keyResult,
-                                [e.target.name]: e.target.value,
+                                [e.target.name]: e.target.valueAsNumber,
                             });
                         }}
                     />
