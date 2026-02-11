@@ -78,7 +78,7 @@ export default function KeyResultList() {
    return (
       <div className="mt-6 max-w-md mx-auto space-y-3">
          <AnimatePresence>
-            {keyResultList.map((kr) => {
+            {keyResultList.map((kr,index) => {
                const progress = Number(kr.progress);
                const isEditing = editingId === kr.id;
 
@@ -91,8 +91,9 @@ export default function KeyResultList() {
                      layout
                      className={`p-4 rounded-xl border transition-all duration-200 ${
                         isEditing
-                           ? 'bg-blue-50 border-blue-300 shadow-md'
-                           : 'bg-white border-gray-200 hover:shadow-sm'
+                           ? 'bg-blue-200 border-blue-400 shadow-md'
+                           : index % 2 === 0 && 'bg-pink-100 border-blue-300 hover:shadow-md'
+                     
                      }`}
                   >
                      {isEditing ? (
