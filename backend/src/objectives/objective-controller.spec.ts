@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Test } from '@nestjs/testing';
 import ObjectiveController from './objective.controller';
-import ObjectiveService from './objective.service';
+import { ObjectiveService } from './objective.service';
 
 describe('ObjectiveController', () => {
   let objectiveController: ObjectiveController;

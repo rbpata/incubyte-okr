@@ -7,7 +7,7 @@ import { ObjectiveNotFoundException } from '../common/exceptions/objective-not-f
 import { KeyResult } from '../../generated/prisma/client';
 
 @Injectable()
-class ObjectiveService {
+export class ObjectiveService {
   constructor(private readonly prismaService: PrismaService) {}
   async getAll() {
     const objectives = await this.prismaService.objective.findMany({
@@ -103,5 +103,3 @@ class ObjectiveService {
     return objective;
   }
 }
-
-export default ObjectiveService;

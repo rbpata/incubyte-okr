@@ -8,7 +8,7 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import ObjectiveService from './objective.service';
+import { ObjectiveService } from './objective.service';
 import { type CreateObjectiveDto } from './dto/create-objective.dto';
 import { type UpdateObjectiveDto } from './dto/update-objective.dto';
 
@@ -30,13 +30,10 @@ class ObjectiveController {
   getStatus(@Param('id') id: string) {
     const objectiveId = parseInt(id, 10);
     return this.objectiveService.getStatus(objectiveId);
-
   }
 
   @Post()
-  create(
-    @Body() createObjectiveDto: CreateObjectiveDto,
-  ) {
+  create(@Body() createObjectiveDto: CreateObjectiveDto) {
     return this.objectiveService.create(createObjectiveDto);
   }
 

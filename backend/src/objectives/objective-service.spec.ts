@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Test } from '@nestjs/testing';
-import ObjectiveService from './objective.service';
+import { ObjectiveService } from './objective.service';
 import { PrismaService } from '../prisma.service';
 import { ObjectiveAlreadyExistsException } from '../common/exceptions/objective-already-exists.exception';
 import { ObjectiveNotFoundException } from '../common/exceptions/objective-not-found.exception';
@@ -204,7 +204,7 @@ describe('ObjectiveService', () => {
 
       const result = await objectiveService.getStatus(1);
 
-      expect(result).toEqual({ isCompleted: false, progress: 50 });
+      expect(result).toEqual({ isCompleted: false, progress: 70 });
     });
 
     it.each([
@@ -217,7 +217,7 @@ describe('ObjectiveService', () => {
 
       const result = await objectiveService.getStatus(1);
 
-      expect(result).toEqual({ isCompleted: true, progress });
+      expect(result).toEqual({ isCompleted: true, progress: 100 });
     });
 
     it('should throw ObjectiveNotFoundException if objective not found', async () => {

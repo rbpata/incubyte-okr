@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { KeyResultsService } from './key-results.service';
 import { Test } from '@nestjs/testing';
 import { PrismaService } from '../prisma.service';
@@ -28,9 +29,12 @@ describe('KeyResultsService', () => {
 
   const mockPrismaService = {
     keyResult: {
-      findMany: jest.fn(),
-      findUnique: jest.fn(),
-      createMany: jest.fn(),
+      findMany: vi.fn(),
+      findUnique: vi.fn(),
+      createMany: vi.fn(),
+    },
+    objective: {
+      findUnique: vi.fn(),
     },
   };
 
@@ -117,6 +121,10 @@ describe('KeyResultsService', () => {
         { description: 'New Key Result 1', progress: 0 },
         { description: 'New Key Result 2', progress: 0 },
       ];
+
+      mockPrismaService.objective.findUnique.mockResolvedValue({
+        id: objectiveId,
+      });
 
       mockPrismaService.keyResult.createMany.mockResolvedValue({
         count: dtos.length,
