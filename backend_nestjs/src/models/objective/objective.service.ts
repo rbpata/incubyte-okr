@@ -1,7 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { ObjectiveDto } from './dto/objective.dto';
 import { PrismaService } from '../../prisma.service';
 import { KeyResultService } from './key-result/key-result.service';
+import { KeyResultDto } from './key-result/dto/key-result.dto';
+import { KeyResult } from '../../../generated/prisma/client';
 
 @Injectable()
 export class ObjectiveService {
@@ -70,10 +76,18 @@ export class ObjectiveService {
         if (!objectiveId) {
             throw new BadRequestException('Objective is required');
         }
+        const isCompleted = await this.checkIsCompletedBasedOnDto(
+            updateObjectiveDto.keyResults,
+        );
+        console.log(isCompleted);
+
         await this.prismaService.$transaction(async (tx) => {
             await tx.objective.update({
                 where: { id: objectiveId },
-                data: { title: updateObjectiveDto.title },
+                data: {
+                    title: updateObjectiveDto.title,
+                    isCompleted: isCompleted,
+                },
             });
             await this.keyResultService.updateOkr(
                 objectiveId,
@@ -88,5 +102,36 @@ export class ObjectiveService {
 
     delete(id: string) {
         return this.prismaService.objective.delete({ where: { id } });
+    }
+
+    async checkIsCompletedBasedOnDto(keyResultDto: KeyResultDto[]) {
+        let isCompleted = true;
+
+        for (const keyResult of keyResultDto) {
+            isCompleted = isCompleted && keyResult.progress === '100';
+        }
+        return isCompleted;
+    }
+    private checkIsCompleted(keyResults: KeyResult[]) {
+        let isCompleted = true;
+        let sum = 0;
+
+        for (const keyResult of keyResults) {
+            isCompleted = isCompleted && keyResult.isCompleted;
+            sum = sum + keyResult.progress;
+        }
+        return {
+            progress: keyResults.length === 0 ? 100 : sum / keyResults.length,
+            isCompleted: isCompleted,
+        };
+    }
+
+    async setObjectiveStatus(objectiveId: string) {
+        const objective = await this.getOneById(objectiveId);
+        if (!objective) {
+            throw new NotFoundException('Objective not found');
+        }
+
+        return this.checkIsCompleted(objective.keyResults);
     }
 }

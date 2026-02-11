@@ -9,6 +9,7 @@ export default defineConfig({
         path: 'prisma/migrations',
     },
     datasource: {
-        url: 'postgresql://postgres1:postgres1@localhost:5433/okrs',
+        url: process.env['DATABASE_URL'],
+        // url: 'postgresql://postgres1:postgres1@localhost:5433/okrs',
     },
 });

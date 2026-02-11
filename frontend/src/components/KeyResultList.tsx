@@ -1,52 +1,58 @@
 import type { KeyResultState } from '../types/okr_types.ts';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { KeyResultContext } from '../contexts/KeyResultProvider.tsx';
 
 const KeyResultList = ({ mode }: { mode: string }) => {
     const { keyResultList, removeKeyResult, setSelectedKeyResult } =
         useContext(KeyResultContext);
 
-    const visibleKeyResults = useMemo(
-        () => keyResultList.filter((kr) => !kr.toDelete),
-        [keyResultList]
-    );
-    const handleKeyResultProgressValue = (progress: number) => {
-        if (progress > 100) return 100;
-        else if (progress < 0) return 0;
-        return progress;
-    };
     const handleRemoveKeyResult = (keyResultId: string) => {
         removeKeyResult(keyResultId, mode);
     };
     return (
-        <ul className={'divide-y divide-gray-500'}>
-            {visibleKeyResults.map((keyResult: KeyResultState) => (
-                <li key={keyResult.id}>
-                    <div className={'flex gap-4'}>
-                        <div onClick={() => setSelectedKeyResult(keyResult)}>
-                            <p>
-                                Key Result Description is :{' '}
-                                {keyResult.description}
-                            </p>
-                            <p>
-                                Key Result Progress is :{' '}
-                                {handleKeyResultProgressValue(
-                                    parseInt(keyResult.progress, 10)
-                                ) + '%'}
-                            </p>
-                        </div>
-                        <button
-                            type="button"
-                            className={
-                                'ml-auto text-red-500 hover:text-red-700 px-2 py-2'
-                            }
-                            onClick={() => handleRemoveKeyResult(keyResult.id)}
-                        >
-                            Remove
-                        </button>
-                    </div>
+        <ul className="divide-y divide-gray-200">
+            {keyResultList.length === 0 ? (
+                <li className="py-4 text-gray-500 text-center">
+                    No key results yet
                 </li>
-            ))}
+            ) : (
+                keyResultList.map((keyResult: KeyResultState) => {
+                    return (
+                        <li
+                            key={keyResult.id}
+                            className="py-2 hover:bg-gray-50 transition cursor-pointer"
+                            onClick={() => setSelectedKeyResult(keyResult)}
+                        >
+                            <div className="flex gap-4 items-start">
+                                <div className="flex-1 space-y-2">
+                                    <p className={'font-medium text-gray-900'}>
+                                        {keyResult.description}
+                                    </p>
+                                    <p className={'text-sm text-gray-500'}>
+                                        {keyResult.currentValue} /{' '}
+                                        {keyResult.targetValue}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                        Metric: {keyResult.metricType}
+                                    </p>
+                                </div>
+
+                                {/* Actions */}
+                                <button
+                                    type="button"
+                                    className="text-red-500 hover:text-red-700 px-2 py-1"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleRemoveKeyResult(keyResult.id);
+                                    }}
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        </li>
+                    );
+                })
+            )}
         </ul>
     );
 };

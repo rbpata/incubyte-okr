@@ -1,13 +1,15 @@
 export type KeyResultState = {
     id: string;
     description: string;
-    progress: string;
-    toDelete?: boolean;
-    toCreate?: boolean;
+    currentValue: number;
+    targetValue: number;
+    metricType: string;
+    objectiveId?: string;
 };
 
-export type OkrState = {
+export type ObjectiveState = {
     id: string;
     title: string;
+    progress: string;
     keyResults: KeyResultState[];
 };

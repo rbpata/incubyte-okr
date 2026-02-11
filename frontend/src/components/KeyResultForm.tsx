@@ -9,11 +9,17 @@ const KeyResultForm = () => {
         setSelectedKeyResult,
         editKeyResult,
     } = useContext(KeyResultContext);
-    const [keyResult, setKeyResult] = useState<KeyResultState>({
+
+    const defaultKeyResultState = {
         id: '',
         description: '',
-        progress: '',
-    });
+        currentValue: 0,
+        targetValue: 100,
+        metricType: 'Percentage',
+    };
+    const [keyResult, setKeyResult] = useState<KeyResultState>(
+        defaultKeyResultState
+    );
     const [isEditable, setIsEditable] = useState(false);
     useEffect(() => {
         console.log(selectedKeyResult);
@@ -21,11 +27,7 @@ const KeyResultForm = () => {
             setKeyResult(selectedKeyResult);
             setIsEditable(true);
         } else {
-            setKeyResult({
-                id: '',
-                description: '',
-                progress: '',
-            });
+            setKeyResult(defaultKeyResultState);
             setIsEditable(false);
         }
     }, [selectedKeyResult]);
@@ -37,7 +39,7 @@ const KeyResultForm = () => {
                 <label id="keyResult-label">Add Key Results</label>
                 <input
                     type="text"
-                    className={'rounded-md border px-3 py-2'}
+                    className={'rounded-md border px-3 py-2 w-full'}
                     id={'keyResult-description'}
                     name="description"
                     value={keyResult.description}
@@ -50,14 +52,12 @@ const KeyResultForm = () => {
                     }}
                 />
                 <input
-                    type="number"
-                    className={'rounded-md border px-3 py-2'}
-                    id={'keyResult-Progress'}
-                    name="progress"
-                    min={0}
-                    max={100}
-                    value={keyResult.progress}
-                    placeholder={'Enter Progress'}
+                    type="text"
+                    className={'rounded-md border px-3 py-2 w-full'}
+                    id={'keyResult-metricType'}
+                    name="metricType"
+                    value={keyResult.metricType}
+                    placeholder={'Enter Metric Type'}
                     onChange={(e) => {
                         setKeyResult({
                             ...keyResult,
@@ -65,6 +65,38 @@ const KeyResultForm = () => {
                         });
                     }}
                 />
+                <div className={'flex flex-row gap-2 w-full'}>
+                    <input
+                        type="number"
+                        className={'rounded-md border px-3 py-2 w-full'}
+                        id={'keyResult-currentValue'}
+                        name="currentValue"
+                        min={0}
+                        value={keyResult.currentValue}
+                        placeholder={'Enter Current Value'}
+                        onChange={(e) => {
+                            setKeyResult({
+                                ...keyResult,
+                                [e.target.name]: e.target.value,
+                            });
+                        }}
+                    />
+                    <input
+                        type="number"
+                        className={'rounded-md border px-3 py-2 w-full'}
+                        id={'keyResult-targetValue'}
+                        name="targetValue"
+                        min={0}
+                        value={keyResult.targetValue}
+                        placeholder={'Enter Target Value'}
+                        onChange={(e) => {
+                            setKeyResult({
+                                ...keyResult,
+                                [e.target.name]: e.target.value,
+                            });
+                        }}
+                    />
+                </div>
             </div>
 
             <div className={'flex flex-col justify-center'}>
@@ -76,11 +108,7 @@ const KeyResultForm = () => {
                             ...keyResult,
                             id: `temp_kr_${Date.now()}`,
                         });
-                        setKeyResult({
-                            id: '',
-                            description: '',
-                            progress: '',
-                        });
+                        setKeyResult(defaultKeyResultState);
                     }}
                     disabled={isDisabled}
                 >

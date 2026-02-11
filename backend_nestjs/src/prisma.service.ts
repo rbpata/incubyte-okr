@@ -6,8 +6,8 @@ import { PrismaClient } from '../generated/prisma/client';
 export class PrismaService extends PrismaClient {
     constructor() {
         const adapter = new PrismaPg({
-            connectionString:
-                'postgresql://postgres1:postgres1@localhost:5433/okrs',
+            connectionString: process.env['DATABASE_URL'],
+            // 'postgresql://postgres1:postgres1@localhost:5433/okrs',
         });
         super({
             adapter,

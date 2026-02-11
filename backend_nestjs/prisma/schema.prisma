@@ -10,10 +10,11 @@ datasource db {
 }
 
 model Objective {
-  id         String      @id @default(uuid())
-  title      String
-  created_at DateTime    @default(now()) @db.Timestamp(6)
-  keyResults KeyResult[]
+  id          String      @id @default(uuid())
+  title       String
+  created_at  DateTime    @default(now()) @db.Timestamp(6)
+  keyResults  KeyResult[]
+  isCompleted Boolean     @default(false)
 }
 
 model KeyResult {

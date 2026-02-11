@@ -23,6 +23,7 @@ export class KeyResultService {
 
     update(updateKeyResultDto: KeyResultDto, tx?: any) {
         const prisma = tx || this.prismaService;
+
         return prisma.keyResult.update({
             where: {
                 id: updateKeyResultDto.id,
@@ -30,6 +31,7 @@ export class KeyResultService {
             data: {
                 description: updateKeyResultDto.description,
                 progress: parseInt(updateKeyResultDto.progress, 10),
+                isCompleted: updateKeyResultDto.progress === '100',
             },
         });
     }

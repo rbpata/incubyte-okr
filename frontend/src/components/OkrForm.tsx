@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import KeyResultForm from './KeyResultForm.tsx';
 import KeyResultList from './KeyResultList.tsx';
 import { KeyResultContext } from '../contexts/KeyResultProvider.tsx';
-import type { OkrState } from '../types/okr_types.ts';
+import type { ObjectiveState } from '../types/okr_types.ts';
 
 export default function OkrForm({
     setFetchOkr,
@@ -11,7 +11,7 @@ export default function OkrForm({
 }: {
     setFetchOkr: React.Dispatch<React.SetStateAction<boolean>>;
     mode: string;
-    selectedOkr: OkrState | null;
+    selectedOkr: ObjectiveState | null;
 }) {
     const [objective, setObjective] = useState<string>('');
 
@@ -37,9 +37,10 @@ export default function OkrForm({
                 alert('Please add Key Results');
                 return;
             }
-            const okr: OkrState = {
+            const okr: ObjectiveState = {
                 id: `temp_okr_${Date.now()}`,
                 title: objective.toString(),
+                progress: '0',
                 keyResults: keyResultList,
             };
             fetch(BASE_URL, {
@@ -60,9 +61,10 @@ export default function OkrForm({
                 }
                 return kr;
             });
-            const okr: OkrState = {
+            const okr: ObjectiveState = {
                 id: selectedOkr.id,
                 title: objective,
+                progress: '0',
                 keyResults: keyResultsToSend,
             };
             console.log('edited okr', okr.keyResults);
