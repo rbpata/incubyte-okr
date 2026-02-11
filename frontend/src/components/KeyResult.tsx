@@ -1,7 +1,19 @@
 import type { KeyResultState } from '../types/okr_types.ts';
 import { useState } from 'react';
 
-export const KeyResult = ({ keyResult }: { keyResult: KeyResultState }) => {
+export const KeyResult = ({
+    keyResult,
+    onUpdate,
+    objectiveId,
+}: {
+    keyResult: KeyResultState;
+    onUpdate: (
+        keyResultId: string,
+        currentValue: number,
+        objectiveId: string
+    ) => void;
+    objectiveId: string;
+}) => {
     const progress = Math.min(
         (keyResult.currentValue / keyResult.targetValue) * 100,
         100
@@ -9,15 +21,15 @@ export const KeyResult = ({ keyResult }: { keyResult: KeyResultState }) => {
     const formatValue = (value: number, metricType: string) => {
         switch (metricType) {
             case '%':
-                return `${value}%`;
+                return `${value} %`;
             case 'ms':
-                return `${value}ms`;
+                return `${value} ms`;
             case 'count':
                 return value.toLocaleString();
             case 'currency':
                 return `₹${value.toLocaleString()}`;
             default:
-                return `${value}${metricType}`;
+                return `${value} ${metricType}`;
         }
     };
     const [isEditing, setIsEditing] = useState(false);
@@ -25,7 +37,7 @@ export const KeyResult = ({ keyResult }: { keyResult: KeyResultState }) => {
     const isCompleted = keyResult.currentValue >= keyResult.targetValue;
 
     const handleSave = () => {
-        // onUpdate(keyResult.id, currentValue);
+        onUpdate(keyResult.id, currentValue, objectiveId);
         setIsEditing(false);
     };
 

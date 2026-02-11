@@ -37,7 +37,6 @@ const KeyResultList = ({ mode }: { mode: string }) => {
                                     </p>
                                 </div>
 
-                                {/* Actions */}
                                 <button
                                     type="button"
                                     className="text-red-500 hover:text-red-700 px-2 py-1"

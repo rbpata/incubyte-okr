@@ -16,7 +16,7 @@ export default function OkrForm({
     const [objective, setObjective] = useState<string>('');
 
     const { keyResultList, setKeyResultList } = useContext(KeyResultContext);
-    const BASE_URL: string = import.meta.env.VITE_BASE_URL;
+    const BASE_URL: string = import.meta.env.VITE_OBJECTIVE_BASE_URL;
     useEffect(() => {
         if (selectedOkr != null) {
             setObjective(selectedOkr.title);
@@ -109,7 +109,7 @@ export default function OkrForm({
                         required={true}
                     />
                 </div>
-                <KeyResultForm />
+                <KeyResultForm objectiveId={null} onAddKeyResult={() => {}} />
                 <div className={'flex gap-4 justify-center'}>
                     <button
                         className={

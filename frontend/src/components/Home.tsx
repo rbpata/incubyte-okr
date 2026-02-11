@@ -11,7 +11,7 @@ const Home = () => {
     const [fetchOkr, setFetchOkr] = useState<boolean>(true);
     const [okrList, setOkrList] = useState([]);
     const [selectedOkr, setSelectedOkr] = useState<ObjectiveState | null>(null);
-    const BASE_URL: string = import.meta.env.VITE_BASE_URL;
+    const BASE_URL: string = import.meta.env.VITE_OBJECTIVE_BASE_URL;
     useEffect(() => {
         if (fetchOkr) {
             const fetchData = async () => {
@@ -22,6 +22,17 @@ const Home = () => {
             setFetchOkr(false);
         }
     }, [fetchOkr]);
+
+    const onDelete = (id: string) => {
+        fetch(`${BASE_URL}/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(() => {
+            setFetchOkr(true);
+        });
+    };
     return (
         <div className={'container relative font-mono bg-white'}>
             <div className={'flex justify-between '}>
@@ -66,7 +77,9 @@ const Home = () => {
                             (okr: ObjectiveState) => okr.id != okrId || !okrId
                         )
                     );
+                    onDelete(okrId);
                 }}
+                setFetchOkr={setFetchOkr}
             />
         </div>
     );

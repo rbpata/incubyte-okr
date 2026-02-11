@@ -16,9 +16,7 @@ const Modal = ({ children, isOpen, handleOnClose }: ModalProps) => {
             "
             >
                 <button
-                    className={
-                        'absolute right-[34.5%] top-[6.5%] p-1  text-red-500 hover:text-red-600'
-                    }
+                    className={`absolute top-3 right-3 text-red-500 hover:text-red-800`}
                     onClick={handleOnClose}
                 >
                     Close

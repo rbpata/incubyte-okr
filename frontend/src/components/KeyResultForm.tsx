@@ -2,7 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import type { KeyResultState } from '../types/okr_types.ts';
 import { KeyResultContext } from '../contexts/KeyResultProvider.tsx';
 
-const KeyResultForm = () => {
+const KeyResultForm = ({
+    objectiveId,
+    onAddKeyResult,
+}: {
+    objectiveId: string | null;
+    onAddKeyResult: (keyResult: KeyResultState, objectiveId: string) => void;
+}) => {
     const {
         addKeyResult,
         selectedKeyResult,
@@ -36,7 +42,7 @@ const KeyResultForm = () => {
     return (
         <>
             <div className="flex flex-col item-center gap-2">
-                <label id="keyResult-label">Add Key Results</label>
+                <label id="keyResult-label">Add a Key Result</label>
                 <input
                     type="text"
                     className={'rounded-md border px-3 py-2 w-full'}
@@ -104,11 +110,15 @@ const KeyResultForm = () => {
                     className={'ml-auto text-blue-500 hover:text-blue-700'}
                     type="button"
                     onClick={() => {
-                        addKeyResult({
-                            ...keyResult,
-                            id: `temp_kr_${Date.now()}`,
-                        });
-                        setKeyResult(defaultKeyResultState);
+                        if (!objectiveId) {
+                            addKeyResult({
+                                ...keyResult,
+                                id: `temp_kr_${Date.now()}`,
+                            });
+                            setKeyResult(defaultKeyResultState);
+                        } else {
+                            onAddKeyResult(keyResult, objectiveId);
+                        }
                     }}
                     disabled={isDisabled}
                 >
