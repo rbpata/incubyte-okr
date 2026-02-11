@@ -6,7 +6,7 @@ interface OkrListProps {
    onDelete?: (id: string | number) => void;
 }
 
-function KeyResultItem({ kr , index}: { kr: KeyResult,index:number }) {
+function KeyResultItem({ kr, index }: { kr: KeyResult; index: number }) {
    const progressColor =
       Number(kr.progress) >= 70
          ? 'bg-emerald-500'
@@ -17,7 +17,7 @@ function KeyResultItem({ kr , index}: { kr: KeyResult,index:number }) {
    return (
       <li
          className={`flex items-center justify-between py-3 border-b border-gray-100 last:border-0 rounded-lg px-3 ${
-            index % 2 === 0 && 'bg-blue-100' 
+            index % 2 === 0 ? 'bg-blue-100' : 'bg-pink-100'
          }`}
       >
          <span className="text-gray-700 text-base flex-1 pr-4">
