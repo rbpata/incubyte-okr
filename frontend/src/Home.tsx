@@ -63,7 +63,7 @@ const Home = () => {
             <header className="flex justify-between items-center px-6 md:px-10 py-5 bg-white border-b border-gray-200 shadow-sm">
                <h1 className="text-2xl font-semibold text-gray-800">My OKRs</h1>
                <button
-                  className="px-5 py-2.5 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors font-medium"
+                  className="px-5 py-2.5 bg-pink-600 text-white rounded-lg shadow hover:bg-pink-700 transition-colors font-medium"
                   onClick={() => {
                      setIsModalOpen(true);
                      setEditingOkr(null);
