@@ -1,200 +1,259 @@
-# 🚀 OKR Management Application
+# OKR Management Application
 
-A full-stack **OKR (Objectives & Key Results)** management application built with:
+A full-stack application for managing Objectives and Key Results (OKRs). Track team goals and measure progress through key results.
 
-- ⚛️ Frontend: React (Vite)
-- 🧠 Backend: NestJS
-- 🗄️ ORM: Prisma
-- 🐘 Database: PostgreSQL
-- 🐳 Containerization: Docker
-- 🧪 Testing: Vitest
+## Table of Contents
 
----
+- [Tech Stack](#tech-stack)
+- [Database Schema](#database-schema)
+- [Getting Started](#getting-started)
+- [API Documentation](#api-documentation)
+- [Testing](#testing)
+- [Project Structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
 
-## 📌 Tech Stack
+## Tech Stack
 
-| Layer    | Technology   |
-|----------|--------------|
-| Frontend | React + Vite |
-| Backend  | NestJS       |
-| ORM      | Prisma       |
-| Database | PostgreSQL   |
-| Testing  | Vitest       |
+| Layer              | Technology         |
+|--------------------|-------------------|
+| Frontend           | React + Vite      |
+| Backend            | NestJS            |
+| ORM                | Prisma            |
+| Database           | PostgreSQL        |
+| Containerization   | Docker            |
+| Testing            | Vitest            |
 
----
+## Database Schema
 
-# 🛠️ Project Setup Guide
-
-Follow the steps below to set up the project locally.
-
----
-
-## 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/rbpata/incubyte-okr.git .
+```mermaid
+erDiagram
+    Objective ||--o{ KeyResult : "has many"
+    
+    Objective {
+        int id PK "Auto-increment"
+        string title "NOT NULL"
+        datetime createdAt "DEFAULT now()"
+    }
+    
+    KeyResult {
+        int id PK "Auto-increment"
+        int objectiveId FK "NOT NULL"
+        string description "NOT NULL"
+        int progress "DEFAULT 0, Range: 0-100"
+        datetime createdAt "DEFAULT now()"
+    }
 ```
 
----
+The schema defines two main entities:
+- **Objective**: Represents a goal with a title
+- **KeyResult**: Measurable outcomes linked to an objective with progress tracking (0-100%)
 
-# 🔧 Backend Setup
+Relationships:
+- One Objective can have multiple KeyResults
+- Deleting an Objective cascades to delete all its KeyResults
 
-## 📂 Navigate to Backend
+## Getting Started
+
+### Prerequisites
+
+- Node.js v18+
+- pnpm
+- Docker Desktop
+
+### Quick Setup
 
 ```bash
-cd incubyte-okr/backend
+# Clone repository
+git clone https://github.com/rbpata/incubyte-okr.git
+cd incubyte-okr
+
+# Backend setup
+cd backend
+pnpm install
+docker compose up -d
+pnpx prisma generate
+pnpx prisma db push
+pnpm run start:dev
+
+# Frontend setup (new terminal)
+cd frontend
+pnpm install
+pnpm run dev
 ```
 
----
+Access the application:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3000
+- **API Documentation (Swagger):** http://localhost:3000/api
 
-## 📦 Install Dependencies
+### Detailed Installation
 
+#### Backend
+
+1. Navigate to backend directory:
+```bash
+cd backend
+```
+
+2. Install dependencies:
 ```bash
 pnpm install
 ```
 
----
-
-## 🔐 Environment Variables
-
-Create a `.env` file inside the `backend` folder and add:
-
+3. Create `.env` file:
 ```env
-DATABASE_URL="postgresql://<username>:<password>@localhost:5432/okrs"
-AUTH_TOKEN="secretkey"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/okrs"
+AUTH_TOKEN="your-secret-token"
 ```
 
-> Replace `<username>` and `<password>` with your PostgreSQL credentials.
-
----
-
-## 🐳 Setup PostgreSQL using Docker
-
-1. Start Docker Desktop
-2. Run:
-
+4. Start PostgreSQL:
 ```bash
-docker compose up
+docker compose up -d
 ```
 
-This will start the PostgreSQL database container.
-
----
-
-## 🧬 Prisma Setup
-
-### Generate Prisma Client
-
+5. Initialize database:
 ```bash
 pnpx prisma generate
-```
-
-### Sync Database with Schema
-
-```bash
 pnpx prisma db push
 ```
 
----
-
-## ▶️ Start Backend Server
-
+6. Start server:
 ```bash
 pnpm run start:dev
 ```
 
-Backend runs at:
+#### Frontend
 
-```
-http://localhost:3000
-```
-
----
-
-# 🎨 Frontend Setup
-
-## 📂 Open a New Terminal and Navigate to Frontend
-
+1. Navigate to frontend directory:
 ```bash
-cd incubyte-okr/frontend
+cd frontend
 ```
 
----
-
-## 📦 Install Dependencies
-
+2. Install dependencies:
 ```bash
 pnpm install
 ```
 
----
-
-## ▶️ Start Frontend Server
-
+3. Start development server:
 ```bash
 pnpm run dev
 ```
 
-Frontend runs at:
 
-```
-http://localhost:5173
-```
+## API Documentation
 
----
+### 🌐 Interactive Swagger UI
 
-# 🧪 Running Tests
+Access the **interactive API documentation** at: **http://localhost:3000/api**
 
-We use **Vitest** for testing in both frontend and backend.
+The Swagger UI provides:
+- ✅ **Try It Out** - Test APIs directly from your browser
+- ✅ **Request Examples** - Pre-filled example data for all endpoints
+- ✅ **Response Schemas** - Clear documentation of all responses
+- ✅ **Validation Rules** - See all field constraints and requirements
 
-To run tests in either module, navigate to the respective folder (`backend` or `frontend`) and run:
+### 📊 OpenAPI JSON Schema
+
+Access the raw OpenAPI/Swagger JSON schema at: **http://localhost:3000/api-json**
+
+### 📚 API Endpoints Overview
+
+Base URL: `http://localhost:3000/okr`
+
+#### Objectives
+- `GET /okr/objectives` - Get all objectives
+- `GET /okr/objectives/:id` - Get objective by ID
+- `GET /okr/objectives/:id/status` - Get objective status with progress
+- `POST /okr/objectives` - Create new objective
+- `PUT /okr/objectives/:id` - Update objective
+- `DELETE /okr/objectives/:id` - Delete objective
+
+#### Key Results
+- `GET /okr/objectives/:objectiveId/key-results` - Get all key results
+- `GET /okr/objectives/:objectiveId/key-results/:id` - Get key result by ID
+- `POST /okr/objectives/:objectiveId/key-results` - Create key results (array)
+- `PUT /okr/objectives/:objectiveId/key-results/:id` - Update key result
+- `DELETE /okr/objectives/:objectiveId/key-results/:id` - Delete key result
+
+**For detailed documentation, request/response examples, and interactive testing, visit the Swagger UI.**
+
+## Testing
 
 ```bash
-pnpm test
+# Backend tests
+cd backend
+pnpm test                 # Run all tests
+pnpm run test:watch       # Watch mode
+pnpm run test:e2e         # E2E tests
+pnpm run test:cov         # Coverage report
+
+# Frontend tests
+cd frontend
+pnpm test                 # Run all tests
+pnpm run test:watch       # Watch mode
 ```
 
----
-
-# 📡 Application URLs
-
-| Service  | URL                   |
-|----------|-----------------------|
-| Backend  | http://localhost:3000 |
-| Frontend | http://localhost:5173 |
-| Database | http://localhost:5432 |
-
----
-
-# 📂 Project Structure
+## Project Structure
 
 ```
 incubyte-okr/
+├── backend/
+│   ├── src/
+│   │   ├── objectives/          # Objectives module
+│   │   ├── key-results/         # Key Results module
+│   │   ├── common/              # Shared utilities, guards, pipes
+│   │   ├── app.module.ts
+│   │   ├── main.ts
+│   │   └── prisma.service.ts
+│   ├── prisma/
+│   │   └── schema.prisma        # Database schema
+│   ├── test/                    # E2E tests
+│   ├── docker-compose.yml
+│   └── .env
 │
-├── backend/        # NestJS + Prisma
-├── frontend/       # React (Vite)
-└── docker-compose.yml
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── Contexts/
+│   │   ├── Types/
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   └── package.json
+│
+└── README.md
 ```
 
----
+## Troubleshooting
 
-# ✅ Requirements
+**Port already in use**
+```bash
+# Windows
+netstat -ano | findstr :3000
+taskkill /PID <PID> /F
+```
 
-- Node.js (v18+ recommended)
-- pnpm
-- Docker Desktop
+**Docker not starting**
+- Ensure Docker Desktop is running
+- Try restarting Docker Desktop
 
----
+**Database connection failed**
+```bash
+docker ps                    # Check if container is running
+docker compose restart       # Restart database
+```
 
-# 🧪 Development Notes
+**Prisma client not found**
+```bash
+cd backend
+pnpx prisma generate
+```
 
-- Backend runs in watch mode.
-- Docker must be running before starting the backend.
-- Ensure ports `3000`, `5173`, and `5432` are available.
-- Run `prisma db push` after schema changes.
-- Use `pnpm test` to execute unit tests.
+**Development tips**
+- Use `http://localhost:3000/api` for interactive API documentation and testing
+- Use `pnpx prisma studio` to view database in browser
+- Both frontend and backend support hot reload
+- Run `pnpm lint` and `pnpm format` for code quality
 
----
-
-# 📌 License
+## License
 
 This project is for learning and development purposes.
