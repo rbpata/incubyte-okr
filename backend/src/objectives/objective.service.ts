@@ -5,10 +5,14 @@ import { UpdateObjectiveDto } from './dto/update-objective.dto';
 import { ObjectiveAlreadyExistsException } from '../common/exceptions/objective-already-exists.exception';
 import { ObjectiveNotFoundException } from '../common/exceptions/objective-not-found.exception';
 import { KeyResult } from '../../generated/prisma/client';
+import { SchedulerService } from '../scheduler/scheduler.service';
 
 @Injectable()
 class ObjectiveService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly schedulerService: SchedulerService,
+  ) { }
   async getAll() {
     const objectives = await this.prismaService.objective.findMany({
       include: { keyResults: true },
@@ -30,9 +34,13 @@ class ObjectiveService {
       },
     });
     if (!objective) {
-      return this.prismaService.objective.create({
+      const newObjective = await this.prismaService.objective.create({
         data: createObjectiveDto,
       });
+
+      this.schedulerService.addEmailJob(newObjective.title, newObjective.id);
+
+      return newObjective;
     } else {
       throw new ObjectiveAlreadyExistsException(createObjectiveDto.title);
     }
